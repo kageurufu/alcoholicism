@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+	<title>Guestbook - The High Church of Alcoholicism</title>
+</head>
+<body>
+	<h1>The High Church of Alcoholicism</h1>
+	{% for post in posts %}
+		<p class="post">{{ post.name }} - {{ post.time }}<br />
+			{{ post.message }}
+		</p>
+	{% endfor %}
+	<form name="post" action="/guestbook" method="post">
+		<table>
+			<tr>
+				<td width="30%">Name:</td>
+				<td><input type="text" name="name"></td>
+			</tr>
+			<tr>
+				<td>Message:</td>
+				<td><textarea rows="3" cols="40" name="message"></textarea></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="Sign guestbook"></td>
+			</tr>
+		</table>
+	</form>
+</body>

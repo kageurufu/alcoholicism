@@ -1,0 +1,3 @@
+DEBUG = False
+SECRET_KEY = 'PUT SOMETHING BIG IN HERE'
+SQLALCHEMY_DATABASE_URI = 'mysql://username:password@server/db'
