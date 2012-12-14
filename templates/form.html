@@ -1,0 +1,21 @@
+{% macro build_form(form, action, method="POST") %}
+	<form method="{{ method }}" action="{{ url_for(action) }}">
+		{{ form.csrf_token }}
+		<table>
+			<tbody>
+			{% for item in form %}
+				{% if item.name != 'csrf_token' %}
+					<tr>
+						<td>
+							{% if item.type not in ('SubmitField', 'ButtonField') %}
+								{{ item.label }}
+							{% endif %}
+						</td>
+						<td>{{ item }}</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+			</tbody>	
+		</table>
+	</form>
+{% endmacro %}

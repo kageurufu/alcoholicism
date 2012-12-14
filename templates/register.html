@@ -1,6 +1,5 @@
 {% extends 'layout.html' %}
-
-{%block body %}
+{% block body %}
 	{% from 'form.html' import build_form %}
-	{{ build_form(form, 'login.login') }}
+	{{ build_form(form, 'login.register') }}
 {% endblock %}

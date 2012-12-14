@@ -27,6 +27,7 @@ class User(db.Model):
 		self.lastname = lastname
 		self.passHash = self.hashPassword(password)
 		self.posts = 0
+		self.role_id = 4 #Follower, for now... better way to do this?
 
 	def __repr__(self):
 		return '<User: %s>' % self.username
