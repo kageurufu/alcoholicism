@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<ul>
+		{% for role in roles %}
+			<li data-id='{{role.id}}'>{{ role.title }} <a href="#" class="remove">Remove</a></li>
+		{% endfor %}
+	</ul>
+{% endblock %}

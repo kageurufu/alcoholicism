@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+
+{% set title = 'Login' %}
+
+{% block body %}
+	{% from 'function/form.html' import build_form %}
+	{{ build_form(form, 'login.login') }}
+{% endblock %}

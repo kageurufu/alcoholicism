@@ -11,7 +11,14 @@
 								{{ item.label }}
 							{% endif %}
 						</td>
-						<td>{{ item }}</td>
+						<td>
+							{% if form.errors.get(item.name) %}
+								{% for error in form.errors[item.name] %}
+									<span class="error">{{ error }}</span>
+								{% endfor %}
+							{% endif %}
+							{{ item }}
+						</td>
 					</tr>
 				{% endif %}
 			{% endfor %}

@@ -4,18 +4,18 @@
 	<title>{% if title %}{{ title }} :: {% endif %}Church of Alcoholicism</title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
-	{% if scripts %}
-		{% for script in scripts %}
+{% if scripts %}
+	{% for script in scripts %}
 			<script type="text/javascript" src="{{ url_for('static', filename=script) }}"></script>
-		{% endfor %}
-	{% endif %}
+	{% endfor %}
+{% endif %}
 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-	{% if styles %}
-		{% for style in styles %}
+{% if styles %}
+	{% for style in styles %}
 			<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=style) }}">
-		{% endfor %}
-	{% endif %}
+	{% endfor %}
+{% endif %}
 
 	<link rel="shortcut icon" href="static/favicon.ico">
 </head>
@@ -23,33 +23,47 @@
 	<header>
 		<h1><a href="/">Holy Church of Alcoholicism</a></h1>
 		<nav>
-			{% block nav %}
-				{% if current_user.is_authenticated() %}
+{% block nav %}
+	{% if current_user.is_authenticated() %}
+			<ul>
+		{% if current_user.role.rank >= 900 %}
+				<li>
+					Admin
 					<ul>
-						<li><a href="{{ url_for('user.profile') }}">{{ current_user.firstname }} {{ current_user.lastname }}</a></li>
+						<li><a href="{{ url_for('admin.approve') }}">Approve Users</a></li>
+						<li><a href="{{ url_for('admin.index') }}">Admin Console</a></li>
+					</ul>
+				</li>
+		{% endif %}
+				<li>
+					<a href="{{ url_for('user.profile') }}">{{ current_user.firstname }} {{ current_user.lastname }}</a>
+					<ul>
 						<li><a href="{{ url_for('login.logout') }}">Logout</a></li>
 					</ul>
-				{% else %} 
-					<ul>
-						<li><a href="{{ url_for('login.login') }}">Login</a></li>
-						<li><a href="{{ url_for('login.register') }}">Register</a></li>
-					</ul>
-				{% endif %}
-			{% endblock %}
+				</li>
+				
+			</ul>
+	{% else %} 
+			<ul>
+				<li><a href="{{ url_for('login.login') }}">Login</a></li>
+				<li><a href="{{ url_for('login.register') }}">Register</a></li>
+			</ul>
+	{% endif %}
+{% endblock %}
 		</nav>
 	</header>
 	<div class="header_spacer"></div>
-	{% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages() %}
 	{% if messages %}
 		<ul class="messages">
-			{% for message in messages %}
+		{% for message in messages %}
 			<li>{{ message }}</li>
-			{% endfor %}
+		{% endfor %}
 		</ul>
 	{% endif %}
-	{% endwith %}
+{% endwith %}
 	<div class="content">
-		{% block body %}{% endblock %}
+{% block body %}{% endblock %}
 	</div>
 	<footer>
 		Copyright 2012 Church of Alcoholicism

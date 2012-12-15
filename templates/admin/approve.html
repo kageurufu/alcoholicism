@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	
+		<table>
+			<thead>
+				<tr>
+					<th width="130px">Username</th>
+					<th width="250px">Email</th>
+					<th width="160px">Name</th>
+					<th width="160px"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if pending_users %}
+				{% for user in pending_users %}
+				<tr class="{{ loop.cycle('odd', 'even') }}">
+					<td>{{ user.username|title }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.firstname|title }} {{ user.lastname|title }}</td>
+					<td>
+						<form action="{{ url_for('admin.approve') }}" method="POST">
+							<input id="userid" name="userid" type="hidden" value="{{ user.id }}">
+							{{ form.csrf_token }}
+							{{ form.role }}
+							{{ form.accept }}
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+				{% else %}
+					<tr>
+						<td colspan="4"> There are currently no users to approve </td>
+					</tr>
+				{% endif %}
+			</tbody>
+		</table>
+		{% for error in form.errors %}
+			{{ error }}
+			{% endfor %}
+
+{% endblock %}

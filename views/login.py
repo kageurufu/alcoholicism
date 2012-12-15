@@ -16,7 +16,7 @@ def login():
 				remember = form.remember
 				if not user.is_active():
 					flash("Your account is currently %s" % user.status)
-					return render_template('login.html', form = form)
+					return render_template('login/login.html', form = form)
 				if login_user(user, remember = remember):
 					flash("Logged in successfully")
 					return redirect(request.args.get('next') or url_for('index.index'))
@@ -26,7 +26,7 @@ def login():
 				flash("Invalid password")
 		else:
 			flash("Invalid username")
-	return render_template('login.html', form=form)
+	return render_template('login/login.html', form=form)
 
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
@@ -34,10 +34,10 @@ def register():
 	if form.validate_on_submit():
 		if User.query.filter_by(username = form.username.data).count():
 			flash("Username is already in use")
-			return render_template('register.html', form = form)
+			return render_template('login/register.html', form = form)
 		if User.query.filter_by(email = form.email.data).count():
 			flash("The email is already in use")
-			return render_template('register.html', form = form)
+			return render_template('login/register.html', form = form)
 		role = Role.query.filter_by(title='Follower').first()
 		new_user = User(form.username.data,
 			form.password.data,
@@ -49,7 +49,7 @@ def register():
 		login_user(new_user)
 		flash("User was created!")
 		return redirect(url_for('index.index'))
-	return render_template('register.html', form = form)
+	return render_template('login/register.html', form = form)
 
 @blueprint.route('/logout')
 @login_required
