@@ -31,6 +31,6 @@ def approve():
 		user.role = role
 		user.status = 'approved'
 		db.session.commit()
-		return redirect(url_for('admin.aprrove'))
+		return redirect(url_for('admin.approve'))
 	pending_users = User.query.filter_by(status='pending').all()
 	return render_template('admin/approve.html', form=form, pending_users=pending_users)
