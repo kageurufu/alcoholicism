@@ -11,3 +11,15 @@ class AcceptForm(Form):
 		self.role.choices = []
 		for role in roles:
 			self.role.choices.append((u'%s' % role.id, role.title))
+
+class UserForm(Form):
+	role = SelectField('Role', choices=[])
+	submit = SubmitField('Edit')
+	status = SelectField('Status', choices=[('approved','approved'), ('pending','pending'), ('banned','banned'), ('denied','denied')])
+	userid = HiddenField('UserID')
+
+	def getChoices(self):
+		roles = Role.query.order_by('rank asc').all()
+		self.role.choices = []
+		for role in roles:
+			self.role.choices.append((u'%s' % role.id, role.title))

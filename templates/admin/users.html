@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	
+		<table>
+			<thead>
+				<tr>
+					<th width="130px">Username</th>
+					<th width="250px">Email</th>
+					<th width="160px">Name</th>
+					<th width="160px"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+				<tr class="{{ loop.cycle('odd', 'even') }}">
+					<td>{{ user.username|title }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.firstname|title }} {{ user.lastname|title }}</td>
+					<td>
+						<form action="{{ url_for('admin.users') }}" method="POST">
+							<input id="userid" name="userid" type="hidden" value="{{ user.id }}">
+							{{ form.csrf_token }}
+							{{ form.role }}
+							{{ form.status }}
+							{{ form.submit }}
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% for error in form.errors %}
+			{{ error }}
+			{% endfor %}
+
+{% endblock %}

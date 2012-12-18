@@ -36,6 +36,9 @@
 				</li>
 		{% endif %}
 				<li>
+					<a href="{{ url_for('forum.index') }}">Forums</a>
+				</li>
+				<li>
 					<a href="{{ url_for('user.profile') }}">{{ current_user.firstname }} {{ current_user.lastname }}</a>
 					<ul>
 						<li><a href="{{ url_for('login.logout') }}">Logout</a></li>

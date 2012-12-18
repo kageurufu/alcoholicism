@@ -176,3 +176,31 @@ table {
 	margin-left: auto;
 	margin-right: auto;
 }
+table > thead {
+	font-weight: bold;
+	font-size: large;
+}
+table.topics {
+	width: 94%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+span.tags {
+	float: right;
+	padding-right: 5px;
+}
+table.topic {
+	width: 94%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.postHead {
+	background-color: #EEEEEE;
+}
+
+h2 {
+	width: 100%;
+	text-align: center;
+}

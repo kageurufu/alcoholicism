@@ -1,3 +1,5 @@
 DEBUG = False
 SECRET_KEY = 'PUT SOMETHING BIG IN HERE'
 SQLALCHEMY_DATABASE_URI = 'mysql://username:password@server/db'
+SCSS_ASSET_DIR = 'assets'
+SCSS_STATIC_DIR = 'static'

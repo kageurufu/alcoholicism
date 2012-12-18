@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<form method="post" action="{{ url_for('forum.createTopic') }}">
+		{{ form.csrf_token }}
+		<table>
+			<tbody>
+				<tr>
+					<td>{{ form.title.label }}</td>
+					<td>{{ form.title }}</td>
+				</tr>
+				<tr>
+					<td>{{ form.message.label }}</td>
+					<td>{{ form.message(rows=5, cols=40) }}</td>
+				</tr>
+				<tr>
+					<td>{{ form.tags.label }}</td>
+					<td>{{ form.tags }}</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>{{ form.submit }}</td>
+				</tr>
+			</tbody>	
+		</table>
+	</form>
+	<script></script>
+{% endblock %}

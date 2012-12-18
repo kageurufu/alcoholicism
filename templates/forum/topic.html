@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% set title = topic.title %}
+{% block body %}
+		<h2><a href="{{ url_for('forum.index') }}">Forums</a> > {{ topic.title }}</h2>
+		<table class="topic">
+			<tbody>
+	{% for post in topic.posts %}
+				<tr class="postHead">
+					<td>
+						{{ post.author.firstname|title }}
+						{{ post.author.lastname|title }}
+						| {{ post.time }}
+					</td>
+				</tr>
+				<tr class="postBody">
+					<td>
+						{{ post.message }}
+					</td>
+				</tr>
+	{% endfor %}
+			</tbody>
+		</table>
+		<form method="post" action="{{ url_for('forum.topic', topicid = topic.id) }}">
+			{{ form.csrf_token }}
+			<table>
+				<tr>
+					<td></td>
+					<td>Reply</td>
+				<tr>
+					<td>{{ form.message.label }}</td>
+					<td>{{ form.message(rows = 5, cols = 40) }}</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>{{ form.submit }}</td>
+				</tr>
+			</table>
+		</form>
+{% endblock %}

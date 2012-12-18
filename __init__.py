@@ -12,12 +12,14 @@ bcrypt = Bcrypt(app)
 loginmanager = LoginManager()
 loginmanager.setup_app(app)
 
-from alcoholicism.views import index, login, user, admin
+from alcoholicism.views import index, login, user, admin, forum, api
 
 app.register_blueprint(index.blueprint)
 app.register_blueprint(login.blueprint)
 app.register_blueprint(user.blueprint)
 app.register_blueprint(admin.blueprint)
+app.register_blueprint(forum.blueprint)
+app.register_blueprint(api.blueprint)
 
 from alcoholicism.models.user import User
 

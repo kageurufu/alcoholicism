@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% set title = 'Forums' %}
+{% block body %}
+		<h2>Forums <a href="{{ url_for('forum.createTopic') }}">Create Topic</a></h2>
+		<table class="topics">
+			<thead>
+				<tr>
+					<th width="70%">Topic Title</th>
+					<th width="15%">Author</th>
+					<th width="15%">Last Post</th>
+				</tr>
+			</thead>
+			<tbody>
+	{% for topic in topics %}
+				<tr class='{{ loop.cycle('odd', 'even') }}'>
+					<td>
+						<a href="{{ url_for('forum.topic', topicid = topic.id) }}">
+							{{ topic.title }}
+						</a>
+						<span class="tags">
+							{% for tag in topic.tags %}
+								<a href="{{ url_for('forum.index', tag = tag) }}">{{ tag }}</a>
+							{% endfor %}
+					</td>
+					<td>
+						<a href="{{ url_for('user.profile', userid = topic.author.id) }}">
+							{{ topic.author.firstname|title }}
+							{{ topic.author.lastname|title }}
+						</a>
+					</td>
+					<td>{{ topic.lastTime }}</td>
+				</tr>
+	{% endfor %}
+			</tbody>
+		</table>
+{% endblock %}
