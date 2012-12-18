@@ -21,6 +21,7 @@ class Topic(db.Model):
 	)
 	def __init__(self, title, author, tags=[]):
 		self.author = author
+		self.lastAuthor = author
 		self.title = title
 		self.time = datetime.utcnow()
 		self.lastTime = datetime.utcnow()

@@ -4,6 +4,7 @@ from alcoholicism import db
 from alcoholicism.models.user import User
 from alcoholicism.models.forum import Tag, Topic, Post
 from alcoholicism.forms.forum import PostForm, CreateTopicForm
+from datetime import datetime
 
 blueprint = Blueprint('forum', __name__, template_folder = 'templates')
 
@@ -12,8 +13,12 @@ blueprint = Blueprint('forum', __name__, template_folder = 'templates')
 def index(tag = None):
 	if tag:
 		#tag = Tag.query.filter_by(tag = tag).first()
-		print Tag.tag.in_([tag])
-		topics = Topic.query.filter(Tag.tag.in_([tag])).order_by('lastTime desc').all()
+		filter_tag = Tag.query.filter_by(tag = tag).first()
+		topics = Topic.query.filter(
+			Topic.tags.any(
+				Tag.id.in_([filter_tag.id])
+				)
+			).order_by('lastTime desc').all()
 	else:
 		topics = Topic.query.order_by('lastTime desc').all()
 	return render_template('forum/index.html', topics = topics)
@@ -48,6 +53,7 @@ def topic(topicid = None):
 	topic = Topic.query.filter_by(id = topicid).first()
 	if form.validate_on_submit():
 		newPost = Post(topic, current_user, form.message.data)
+		topic.lastTime = datetime.utcnow()
 		db.session.add(newPost)
 		db.session.commit()
 		return redirect(url_for('forum.topic', topicid = topicid))	

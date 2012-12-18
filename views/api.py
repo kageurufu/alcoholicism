@@ -8,7 +8,11 @@ blueprint = Blueprint('api', __name__)
 @blueprint.route('/api/tags')
 def tags():
 	tags = []
-	for tag in Tag.query.all():
+	if 'term' in request.args:
+		alltags = Tag.query.filter(Tag.tag.startswith(request.args['term'])).all()
+	else:
+		alltags = Tag.query.all()
+	for tag in alltags:
 		tags.append(str(tag))
 	return dumps(tags)
 

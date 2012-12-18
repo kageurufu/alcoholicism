@@ -8,6 +8,7 @@
 	{% for post in topic.posts %}
 				<tr class="postHead">
 					<td>
+						{{ post.author.role }}
 						{{ post.author.firstname|title }}
 						{{ post.author.lastname|title }}
 						| {{ post.time }}
@@ -15,7 +16,7 @@
 				</tr>
 				<tr class="postBody">
 					<td>
-						{{ post.message }}
+						{{ post.message|markdown }}
 					</td>
 				</tr>
 	{% endfor %}

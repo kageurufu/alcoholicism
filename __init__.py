@@ -2,10 +2,12 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
+from flask.ext.markdown import Markdown
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.cfg')
 
+Markdown(app)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 

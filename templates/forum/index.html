@@ -25,6 +25,7 @@
 					</td>
 					<td>
 						<a href="{{ url_for('user.profile', userid = topic.author.id) }}">
+							{{ topic.author.role }}
 							{{ topic.author.firstname|title }}
 							{{ topic.author.lastname|title }}
 						</a>
