@@ -3,6 +3,7 @@ from alcoholicism import db, loginmanager
 from alcoholicism.models.user import User, Role
 from alcoholicism.forms.login import LoginForm, RegisterForm
 from flask.ext.login import login_required, login_user, logout_user, current_user
+from datetime import datetime
 
 blueprint = Blueprint('login', __name__, template_folder='templates')
 
@@ -18,6 +19,8 @@ def login():
 					flash("Your account is currently %s" % user.status)
 					return render_template('login/login.html', form = form)
 				if login_user(user, remember = remember):
+					user.last_login = datetime.utcnow()
+					db.session.commit()
 					flash("Logged in successfully")
 					return redirect(request.args.get('next') or url_for('index.index'))
 				else:

@@ -3,6 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.markdown import Markdown
+from datetime import datetime
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.cfg')
@@ -28,7 +29,10 @@ from alcoholicism.models.user import User
 
 @loginmanager.user_loader
 def load_user(userid):
-	return User.query.filter_by(id=userid).first()
+	user = User.query.filter_by(id=userid).first()
+	user.last_access = datetime.utcnow()
+	db.session.commit()
+	return user
 
 loginmanager.login_view = 'login.login'
 
