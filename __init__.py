@@ -14,6 +14,7 @@ bcrypt = Bcrypt(app)
 loginmanager = LoginManager()
 loginmanager.setup_app(app)
 
+from alcoholicism import filters
 from alcoholicism.views import index, login, user, admin, forum, api
 
 app.register_blueprint(index.blueprint)

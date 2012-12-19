@@ -3,6 +3,10 @@
 {% set title = "Register" %}
 
 {% block body %}
-	{% from 'function/form.html' import build_form %}
-	{{ build_form(form, 'login.register') }}
+	<div class="row-fluid">
+		<div class="span4 offset4">
+			{% from 'function/form.html' import build_form %}
+			{{ build_form(form, 'login.register') }}
+		</div>
+	</div>
 {% endblock %}

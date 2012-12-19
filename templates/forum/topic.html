@@ -2,40 +2,38 @@
 
 {% set title = topic.title %}
 {% block body %}
-		<h2><a href="{{ url_for('forum.index') }}">Forums</a> > {{ topic.title }}</h2>
-		<table class="topic">
-			<tbody>
-	{% for post in topic.posts %}
-				<tr class="postHead">
-					<td>
-						{{ post.author.role }}
-						{{ post.author.firstname|title }}
-						{{ post.author.lastname|title }}
-						| {{ post.time }}
-					</td>
-				</tr>
-				<tr class="postBody">
-					<td>
-						{{ post.message|markdown }}
-					</td>
-				</tr>
-	{% endfor %}
-			</tbody>
-		</table>
-		<form method="post" action="{{ url_for('forum.topic', topicid = topic.id) }}">
-			{{ form.csrf_token }}
-			<table>
-				<tr>
-					<td></td>
-					<td>Reply</td>
-				<tr>
-					<td>{{ form.message.label }}</td>
-					<td>{{ form.message(rows = 5, cols = 40) }}</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>{{ form.submit }}</td>
-				</tr>
-			</table>
-		</form>
+		<div class="row-fluid">
+			<span class="span11 offset1">
+				<h2><a href="{{ url_for('forum.index') }}">Forums</a> > {{ topic.title }}</h2>
+			</span>
+		</div>
+		{% for post in topic.posts %}
+		<div class="row-fluid">
+			<span class="span2 offset1">
+				<p class="pull-right">
+					{{ post.author.role }}
+					{{ post.author.firstname|title }}
+					{{ post.author.lastname|title }}<br />
+					{{ post.time|timesince }}
+				</p>
+			</span>
+			<span class="span8">
+				{{ post.message|markdown }}
+			</span>
+		</div>
+		<hr>
+		{% endfor %}
+		<div class="row-fluid">
+			<div class="span6 offset3">
+				<form class="form-horizontal" method="post" action="{{ url_for('forum.topic', topicid = topic.id) }}">
+					{{ form.csrf_token }}
+					<div class="controls">
+						{{ form.message(rows = 5, class="span12") }}
+					</div>
+					<div class="form-actions">
+						{{ form.submit(class="btn") }}
+					</div>
+				</form>
+			</div>
+		</div>
 {% endblock %}

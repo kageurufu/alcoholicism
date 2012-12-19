@@ -1,3 +1,9 @@
 {% extends 'layout.html' %}
 
 {% set title = 'Index' %}
+
+{% block body %}
+	<div class="hero-unit">
+		<p>{{ quote|safe }}</p>
+	</div>
+{% endblock %}

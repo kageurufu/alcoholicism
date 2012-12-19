@@ -15,7 +15,7 @@ class AcceptForm(Form):
 class UserForm(Form):
 	role = SelectField('Role', choices=[])
 	submit = SubmitField('Edit')
-	status = SelectField('Status', choices=[('approved','approved'), ('pending','pending'), ('banned','banned'), ('denied','denied')])
+	status = SelectField('Status', choices=[('accepted','accepted'), ('pending','pending'), ('banned','banned'), ('denied','denied')])
 	userid = HiddenField('UserID')
 
 	def getChoices(self):

@@ -1,28 +1,33 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-	<form method="post" action="{{ url_for('forum.createTopic') }}">
-		{{ form.csrf_token }}
-		<table>
-			<tbody>
-				<tr>
-					<td>{{ form.title.label }}</td>
-					<td>{{ form.title }}</td>
-				</tr>
-				<tr>
-					<td>{{ form.message.label }}</td>
-					<td>{{ form.message(rows=5, cols=40) }}</td>
-				</tr>
-				<tr>
-					<td>{{ form.tags.label }}</td>
-					<td>{{ form.tags }}</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>{{ form.submit }}</td>
-				</tr>
-			</tbody>	
-		</table>
-	</form>
+	<div class="row">
+		<div class="span6 offset4">
+			<form class="form-horizontal" method="post" action="{{ url_for('forum.createTopic') }}">
+				{{ form.csrf_token }}
+				<div class="control-group">
+					{{ form.title.label(class="control-label") }}
+					<div class="control">
+						{{ form.title(class = "span4") }}
+					</div>
+				</div>
+				<div class="control-group">
+					{{ form.message.label(class='control-label') }}
+					<div class="control">
+						{{ form.message(rows=5, cols=40, class="span4") }}
+					</div>
+				</div>
+				<div class="control-group">
+					{{ form.tags.label(class='control-label') }}
+					<div class="control">
+						{{ form.tags }}
+					</div>
+				</div>
+				<div class="form-actions">
+					{{ form.submit }}
+				</div>
+			</form>
+		</div>
+	</div>
 	<script></script>
 {% endblock %}

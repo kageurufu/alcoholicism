@@ -1,28 +1,22 @@
 {% macro build_form(form, action, method="POST") %}
-	<form method="{{ method }}" action="{{ url_for(action) }}">
+	<form class="form-horizontal" method="{{ method }}" action="{{ url_for(action) }}">
 		{{ form.csrf_token }}
-		<table>
-			<tbody>
-			{% for item in form %}
-				{% if item.name != 'csrf_token' %}
-					<tr>
-						<td>
-							{% if item.type not in ('SubmitField', 'ButtonField') %}
-								{{ item.label }}
-							{% endif %}
-						</td>
-						<td>
-							{% if form.errors.get(item.name) %}
-								{% for error in form.errors[item.name] %}
-									<span class="error">{{ error }}</span>
-								{% endfor %}
-							{% endif %}
-							{{ item }}
-						</td>
-					</tr>
+{% for item in form %}
+	{% if item.name != 'csrf_token' %}
+		<div class="control-group">
+		{% if item.type not in ('SubmitField', 'ButtonField') %}
+			{{ item.label(class='control-label') }}
+		{% endif %}
+			<div class="controls">
+				{% if form.errors.get(item.name) %}
+					{% for error in form.errors[item.name] %}
+						<span class="error">{{ error }}</span>
+					{% endfor %}
 				{% endif %}
-			{% endfor %}
-			</tbody>	
-		</table>
+				{{ item }}
+			</div>
+		</div>
+	{% endif %}
+{% endfor %}
 	</form>
 {% endmacro %}

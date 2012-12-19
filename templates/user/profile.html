@@ -1,5 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-	{{ 'http://google.com'|urlize(10) }}
+	<div class="row-fluid">
+		<span class="span4 offset4">
+			{{ 'http://google.com'|urlize(10) }}
+		</span>
+	</div>
 {% endblock %}

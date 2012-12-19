@@ -4,75 +4,80 @@
 	<title>{% if title %}{{ title }} :: {% endif %}Church of Alcoholicism</title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery.tagsinput.js' )}}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.tagsinput.js' )}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js' )}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% if scripts %}
 	{% for script in scripts %}
-			<script type="text/javascript" src="{{ url_for('static', filename=script) }}"></script>
+			<script type="text/javascript" src="{{ url_for('static', filename='js/%s' % script) }}"></script>
 	{% endfor %}
 {% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery.tagsinput.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.tagsinput.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 {% if styles %}
 	{% for style in styles %}
-			<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=style) }}">
+			<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/%s' % style) }}">
 	{% endfor %}
 {% endif %}
 
 	<link rel="shortcut icon" href="static/favicon.ico">
 </head>
 <body>
-	<header>
-		<h1><a href="/">Holy Church of Alcoholicism</a></h1>
-		<nav>
-{% block nav %}
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            	<span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		        </a>
+	          	<a class="brand" href="/">Holy Church of Alcoholicism</a>
+				<div class="nav-collapse collapse">
+
+	{% block nav %}
 	{% if current_user.is_authenticated() %}
-			<ul>
+					<p class="navbar-text pull-right">
+						<a class="navbar-link" href="{{ url_for('user.profile') }}">{{ current_user.firstname }} {{ current_user.lastname }}</a>
+						<a class="navbar-link" href="{{ url_for('login.logout') }}">Logout</a>
+					</p>
+					<ul class="nav">		
 		{% if current_user.role.rank >= 900 %}
-				<li>
-					Admin
-					<ul>
-						<li><a href="{{ url_for('admin.approve') }}">Approve Users</a></li>
-						<li><a href="{{ url_for('admin.index') }}">Admin Console</a></li>
-					</ul>
-				</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								Admin
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="{{ url_for('admin.users') }}">Edit Users</a></li>
+								<li><a href="{{ url_for('admin.approve') }}">Approve Users</a></li>
+								<li><a href="{{ url_for('admin.index') }}">Admin Console</a></li>
+							</ul>
+						</li>
 		{% endif %}
-				<li>
-					<a href="{{ url_for('forum.index') }}">Forums</a>
-				</li>
-				<li>
-					<a href="{{ url_for('user.profile') }}">{{ current_user.firstname }} {{ current_user.lastname }}</a>
-					<ul>
-						<li><a href="{{ url_for('login.logout') }}">Logout</a></li>
+						<li>
+							<a href="{{ url_for('forum.index') }}">Forums</a>
+						</li>
 					</ul>
-				</li>
-				
-			</ul>
 	{% else %} 
-			<ul>
-				<li><a href="{{ url_for('login.login') }}">Login</a></li>
-				<li><a href="{{ url_for('login.register') }}">Register</a></li>
-			</ul>
-	{% endif %}
-{% endblock %}
-		</nav>
-	</header>
-	<div class="header_spacer"></div>
-{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		<ul class="messages">
-		{% for message in messages %}
-			<li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	{% endif %}
-{% endwith %}
-	<div class="content">
+					<ul class="nav pull-right">
+						<li><a href="{{ url_for('login.login') }}">Login</a></li>
+						<li><a href="{{ url_for('login.register') }}">Register</a></li>
+					</ul>
+		{% endif %}
+	{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
 {% block body %}{% endblock %}
 	</div>
+	<hr>
 	<footer>
-		Copyright 2012 Church of Alcoholicism
+		<p>Copyright 2012 Church of Alcoholicism</p>
 	</footer>
 </body>
