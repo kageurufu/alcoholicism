@@ -25,7 +25,8 @@ def index(tag = None, page=1):
 	else:
 		query = Topic.query.order_by('lastTime desc')
 		tag = None
-	pages = query.count() / 20 + 1
+	pages = query.count() / 20 
+	if pages == 0: pages = 1
 	topics = query.limit(20).offset((page - 1) * 20).all()
 	return render_template('forum/index.html', topics = topics, pagetag = tag, page = page, pages = pages)
 
