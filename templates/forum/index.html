@@ -28,7 +28,7 @@
 									{{ topic.title }}
 								</a>
 								<span class="btn-group pull-right">
-									{% for tag in topic.tags %}
+									{% for tag in topic.tags|sort %}
 										<a class="btn btn-mini" href="{{ url_for('forum.index', tag = tag) }}">{{ tag }}</a>
 									{% endfor %}
 								</span>
