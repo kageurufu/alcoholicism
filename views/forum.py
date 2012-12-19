@@ -10,18 +10,24 @@ blueprint = Blueprint('forum', __name__, template_folder = 'templates')
 
 @blueprint.route('/forum')
 @blueprint.route('/forum/tag/<tag>')
-def index(tag = None):
+@blueprint.route('/forum/page/<page>')
+@blueprint.route('/forum/tag/<tag>/page/<page>')
+def index(tag = None, page=1):
+	page = int(page)
 	if tag:
 		#tag = Tag.query.filter_by(tag = tag).first()
 		filter_tag = Tag.query.filter_by(tag = tag).first()
-		topics = Topic.query.filter(
+		query = Topic.query.filter(
 			Topic.tags.any(
 				Tag.id.in_([filter_tag.id])
 				)
-			).order_by('lastTime desc').all()
+			).order_by('lastTime desc')
 	else:
-		topics = Topic.query.order_by('lastTime desc').all()
-	return render_template('forum/index.html', topics = topics)
+		query = Topic.query.order_by('lastTime desc')
+		tag = None
+	pages = query.count() / 20 + 1
+	topics = query.limit(20).offset((page - 1) * 20).all()
+	return render_template('forum/index.html', topics = topics, pagetag = tag, page = page, pages = pages)
 
 @blueprint.route('/forum/create', methods=['POST','GET'])
 def createTopic():
