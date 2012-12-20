@@ -1,0 +1,13 @@
+<html>
+<head>
+<title>New User Created - {{ user.username }}</title>
+</head>
+<body>
+	<p>
+		{{ user.firstname }} {{ user.lastname }} has registered on Alcoholicism.org<br />
+		Their email address is {{ user.email }}
+		They are currently waiting for admin approval before their account is usable<br />
+		<a href="http://alcoholicism.org/{{ url_for('admin.approve') }}">Approve their account here</a>
+	</p>
+</body>
+</html>

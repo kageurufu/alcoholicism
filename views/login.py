@@ -1,8 +1,9 @@
 from flask import Blueprint, request, render_template, g, url_for, flash, redirect
-from alcoholicism import db, loginmanager
+from alcoholicism import db, loginmanager, mail
 from alcoholicism.models.user import User, Role
 from alcoholicism.forms.login import LoginForm, RegisterForm
 from flask.ext.login import login_required, login_user, logout_user, current_user
+from flask.ext.mail import Message
 from datetime import datetime
 
 blueprint = Blueprint('login', __name__, template_folder='templates')
@@ -50,7 +51,15 @@ def register():
 		db.session.add(new_user)
 		db.session.commit()
 		login_user(new_user)
-		flash("User was created!")
+		notify_admin_message = Message("New User Created: %s" % new_user.username,
+			recipients=["kage.urufu@gmail.com"])
+		notify_user_message = Message("Your account has been created", 
+			recipients = [new_user.email])
+		notify_admin_message.html = render_template('email/notify_admin_new_user.html', user=new_user)
+		notify_user_message.html = render_template('email/notify_new_user.html', user=new_user)
+		mail.send(notify_admin_message)
+		mail.send(notify_user_message)
+		flash("User was created, admin approval is necessary before login is allowed!")
 		return redirect(url_for('index.index'))
 	return render_template('login/register.html', form = form)
 

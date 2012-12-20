@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, redirect, abort, request, flash, u
 from flask.ext.login import current_user, login_required
 from alcoholicism.models.user import User, Role
 from alcoholicism.forms.admin import AcceptForm, UserForm
-from alcoholicism import db
+from alcoholicism import db, mail
+from flask.ext.mail import Message
 
 from pprint import pprint
 
@@ -30,10 +31,13 @@ def approve():
 			return abort(403)
 		user.role = role
 		user.status = 'approved'
+		notify_user_approved = Message("Your account has been approved", recipients=[user.email], html=render_template("email/notify_user_approved.html", user=user))
+		mail.send(notify_user_approved)
 		db.session.commit()
 		return redirect(url_for('admin.approve'))
 	pending_users = User.query.filter_by(status='pending').all()
 	return render_template('admin/approve.html', form=form, pending_users=pending_users)
+
 
 @blueprint.route('/admin/users', methods=['GET', 'POST'])
 @login_required
@@ -53,3 +57,4 @@ def users(userid = None):
 		return redirect(url_for('admin.users'))
 	users = User.query.all()
 	return render_template('admin/users.html', form=form, users=users)
+
