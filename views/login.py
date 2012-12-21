@@ -22,14 +22,14 @@ def login():
 				if login_user(user, remember = remember):
 					user.last_login = datetime.utcnow()
 					db.session.commit()
-					flash("Logged in successfully")
+					flash("Logged in successfully", 'success')
 					return redirect(request.args.get('next') or url_for('index.index'))
 				else:
-					flash("Failed to login")
+					flash("Failed to login", 'error')
 			else:
-				flash("Invalid password")
+				flash("Invalid password", 'error')
 		else:
-			flash("Invalid username")
+			flash("Invalid username", 'error')
 	return render_template('login/login.html', form=form)
 
 @blueprint.route('/register', methods=['GET', 'POST'])
@@ -37,10 +37,10 @@ def register():
 	form = RegisterForm()
 	if form.validate_on_submit():
 		if User.query.filter_by(username = form.username.data).count():
-			flash("Username is already in use")
+			flash("Username is already in use", 'error')
 			return render_template('login/register.html', form = form)
 		if User.query.filter_by(email = form.email.data).count():
-			flash("The email is already in use")
+			flash("The email is already in use", 'error')
 			return render_template('login/register.html', form = form)
 		role = Role.query.filter_by(title='Follower').first()
 		new_user = User(form.username.data,
@@ -59,7 +59,7 @@ def register():
 		notify_user_message.html = render_template('email/notify_new_user.html', user=new_user)
 		mail.send(notify_admin_message)
 		mail.send(notify_user_message)
-		flash("User was created, admin approval is necessary before login is allowed!")
+		flash("User was created, admin approval is necessary before login is allowed!", 'success')
 		return redirect(url_for('index.index'))
 	return render_template('login/register.html', form = form)
 
