@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, abort, url_for
 from flask.ext.login import current_user
 from alcoholicism import db
 from alcoholicism.models.user import User
-from alcoholicism.models.forum import Tag, Topic, Post
+from alcoholicism.models.forum import Tag, Topic, Post, PostLike
 from alcoholicism.forms.forum import PostForm, CreateTopicForm
 from datetime import datetime
 
@@ -65,3 +65,20 @@ def topic(topicid = None):
 		db.session.commit()
 		return redirect(url_for('forum.topic', topicid = topicid))	
 	return render_template('forum/topic.html', topic = topic, form = form)
+
+@blueprint.route('/forum/like/<topicid>/<postid>')
+def like(topicid = None, postid = None):
+	if not postid or not topicid:
+		return redirect(url_for('forum.topic', topicid=topicid))
+	post = Post.query.filter_by(id = postid).first()
+	if not post:
+		return redirect(url_for('forum.topic', topicid=topicid))
+	isLiked = PostLike.query.filter_by(user_id = current_user.id, post_id = postid)
+	if isLiked.count():
+		db.session.delete(isLiked.first())
+		db.session.commit()
+	else: 
+		like = PostLike(current_user, post)
+		db.session.add(like)
+		db.session.commit()
+	return redirect(url_for('forum.topic', topicid=topicid))

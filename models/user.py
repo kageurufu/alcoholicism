@@ -32,6 +32,9 @@ class User(db.Model):
 	def __repr__(self):
 		return '<User: %s>' % self.username
 
+	def __str__(self):
+		return '%s %s %s' % (self.role, self.firstname, self.lastname)
+		
 	def setPassword(self, password):
 		self.passHash = self.hashPassword(password)
 

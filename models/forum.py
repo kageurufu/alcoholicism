@@ -44,7 +44,7 @@ class Post(db.Model):
 	time = db.Column(db.DateTime)
 	topic_id = db.Column(db.Integer, db.ForeignKey('forum_topics.id'))
 	topic = db.relationship('Topic')
-	
+	likes = db.relationship("PostLike", backref="forum_likes")
 	def __init__(self, topic, author, message):
 		self.author = author
 		self.message = message
@@ -67,3 +67,17 @@ class Tag(db.Model):
 	def __str__(self):
 		return '%s' % self.tag
 
+class PostLike(db.Model):
+	__tablename__ = 'forum_likes'
+	id = db.Column(db.Integer, primary_key=True)
+	post_id = db.Column(db.Integer, db.ForeignKey('forum_posts.id'))
+	post = db.relationship('Post')
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	user = db.relationship('User')
+
+	def __init__(self, user, post):
+		self.post = post
+		self.user = user
+
+	def __repr__(self):
+		return "<Like: %s by %s>" % (self.post, self.user)

@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% from 'function/functions.html' import print_user %}
 
 {% set title = topic.title %}
 {% block body %}
@@ -14,14 +15,29 @@
 		<div class="row-fluid">
 			<span class="span2 offset1">
 				<p class="pull-right">
-					{{ post.author.role }}
-					{{ post.author.firstname|title }}
-					{{ post.author.lastname|title }}<br />
+					{{ print_user( post.author ) }}<br />
 					{{ post.time|timesince }}
 				</p>
 			</span>
 			<span class="span8">
 				{{ post.message|markdown }}
+				<span class="muted">
+					<a href="{{ url_for('forum.like', topicid=topic.id, postid=post.id) }}"><i class="icon-thumbs-up"></i></a>
+						{% if post.likes %}
+						<small
+							class="addtooltip"
+							data-placement="right"
+							data-html="true"
+							data-original-title='{% for like in post.likes %}{{ like.user }}<br>{% endfor %}'>
+							This post has been liked
+							{% if post.likes|count > 1 %}
+								{{ post.likes|count }} times!
+							{% else %}
+								1 time
+							{% endif %}
+						</small>
+					{% endif %}
+				</span>
 			</span>
 		</div>
 		<hr>

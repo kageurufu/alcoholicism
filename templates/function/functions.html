@@ -23,3 +23,7 @@
 		</ul>
 	</div>
 {% endmacro %}
+
+{% macro print_user(user) %}
+	<a href="{{ url_for("user.profile", userid=user.id) }}">{{ user.role }} {{ user.firstname|title }} {{ user.lastname|title }}</a>
+{% endmacro %}

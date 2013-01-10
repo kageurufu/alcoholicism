@@ -2,16 +2,7 @@
 <html>
 <head>
 	<title>{% if title %}{{ title }} :: {% endif %}Church of Alcoholicism</title>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.tagsinput.js' )}}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js' )}}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
-{% if scripts %}
-	{% for script in scripts %}
-			<script type="text/javascript" src="{{ url_for('static', filename='js/%s' % script) }}"></script>
-	{% endfor %}
-{% endif %}
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
@@ -92,4 +83,15 @@
 	<footer>
 		<p>Copyright 2012 Church of Alcoholicism</p>
 	</footer>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.tagsinput.js' )}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js' )}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% if scripts %}
+	{% for script in scripts %}
+			<script type="text/javascript" src="{{ url_for('static', filename='js/%s' % script) }}"></script>
+	{% endfor %}
+{% endif %}
 </body>
+</html>
