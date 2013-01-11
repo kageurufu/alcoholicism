@@ -56,5 +56,6 @@ def users(userid = None):
 		db.session.commit()
 		return redirect(url_for('admin.users'))
 	users = User.query.all()
-	return render_template('admin/users.html', form=form, users=users)
+	scripts = ['admin.js']
+	return render_template('admin/users.html', form=form, users=users, scripts=scripts)
 
