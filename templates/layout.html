@@ -34,10 +34,31 @@
 
 	{% block nav %}
 	{% if current_user.is_authenticated() %}
-					<p class="navbar-text pull-right">
-						<a class="navbar-link" href="{{ url_for('user.profile') }}">{{ current_user.firstname }} {{ current_user.lastname }}</a>
-						<a class="navbar-link" href="{{ url_for('login.logout') }}">Logout</a>
-					</p>
+					<ul class="nav pull-right">
+		{% if current_user.notifications|count > 0 %}
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<span class="badge badge-important">{{ current_user.notifications|count }}</span>
+							</a>
+							<ul class="dropdown-menu">
+			{% for notification in current_user.notifications %}
+								<li><a href="{{ notification.link }}">{{ notification.message }}</a></li>
+			{% endfor %}
+							</ul>
+						</li>
+		{% endif %}	
+					<li class="dropdown">
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								{{ current_user.firstname }} {{ current_user.lastname }}
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="navbar-link" href="{{ url_for('user.profile') }}">Profile</a></li>
+								<li><a class="navbar-link" href="{{ url_for('login.logout') }}">Logout</a></li>
+							</ul>
+						</li>
+					</ul>
 					<ul class="nav">		
 		{% if current_user.role.rank >= 900 %}
 						<li class="dropdown">

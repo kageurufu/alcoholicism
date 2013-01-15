@@ -16,6 +16,7 @@ class User(db.Model):
 	last_login = db.Column(db.DateTime)
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 	role = db.relationship('Role', lazy="joined")
+	notifications = db.relationship("Notification", backref = "user_notifications")
 	posts = db.Column(db.Integer)
 
 	def __init__(self, username, password, email, firstname, lastname):
@@ -85,3 +86,20 @@ class Role(db.Model):
 		if self.rank > other.rank:	return 1
 		if self.rank < other.rank:	return -1
 		return 0
+
+class Notification(db.Model):
+	__tablename__ = 'user_notifications'
+	id = db.Column(db.Integer, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	user = db.relationship('User', lazy='lazy')
+	link = db.Column(db.String(256))
+	message = db.Column(db.String(256))
+	time = db.Column(db.DateTime)
+	viewed = db.Column(db.Boolean)
+
+	def __init__(self, user, message, link):
+		self.user = user
+		self.link = link
+		self.message = message
+		self.time = datetime.utcnow()
+		self.viewed = False
