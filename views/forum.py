@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, abort, url_for
 from flask.ext.login import current_user
 from alcoholicism import db
-from alcoholicism.models.user import User
+from alcoholicism.models.user import User, Notification
 from alcoholicism.models.forum import Tag, Topic, Post, PostLike
 from alcoholicism.forms.forum import PostForm, CreateTopicForm
 from datetime import datetime
@@ -61,7 +61,11 @@ def topic(topicid = None):
 	if form.validate_on_submit():
 		newPost = Post(topic, current_user, form.message.data)
 		topic.lastTime = datetime.utcnow()
+		notification = Notification(topic.author,
+									"%s has replied to your post" % current_user,
+									url_for('forum.topic', topicid=topic.id))
 		db.session.add(newPost)
+		db.session.add(notification)
 		db.session.commit()
 		return redirect(url_for('forum.topic', topicid = topicid))	
 	return render_template('forum/topic.html', topic = topic, form = form)
@@ -79,6 +83,10 @@ def like(topicid = None, postid = None):
 		db.session.commit()
 	else: 
 		like = PostLike(current_user, post)
+		notification = Notification(post.user,
+									"%s has liked your post" % current_user,
+									url_for('forum.topic', topicid=post.topic.id))
 		db.session.add(like)
+		db.session.add(notification)
 		db.session.commit()
 	return redirect(url_for('forum.topic', topicid=topicid))
