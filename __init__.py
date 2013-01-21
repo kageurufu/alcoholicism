@@ -43,8 +43,8 @@ def checkNotifications():
 		notification = Notification.query.filter_by(id=request.args.get('notification')).first()
 		if notification:
 			if notification.user.id == current_user.id:
-				notification.viewed = True
 				current_user.notifications.remove(notification)
+				db.session.delete(notification)
 
 @app.after_request
 def saveSession(request):
