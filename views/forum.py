@@ -83,7 +83,7 @@ def like(topicid = None, postid = None):
 		db.session.commit()
 	else: 
 		like = PostLike(current_user, post)
-		notification = Notification(post.user,
+		notification = Notification(post.author,
 									"%s has liked your post" % current_user,
 									url_for('forum.topic', topicid=post.topic.id))
 		db.session.add(like)
