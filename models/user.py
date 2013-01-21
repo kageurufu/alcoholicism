@@ -16,7 +16,10 @@ class User(db.Model):
 	last_login = db.Column(db.DateTime)
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 	role = db.relationship('Role', lazy="joined")
-	notifications = db.relationship("Notification", backref = "user_notifications")
+	notifications = db.relationship("Notification",
+									primaryjoin="and_(User.id==Notification.user_id, "
+										"Notification.viewed==False)",
+									backref = "user_notifications")
 	posts = db.Column(db.Integer)
 
 	def __init__(self, username, password, email, firstname, lastname):

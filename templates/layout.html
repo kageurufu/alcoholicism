@@ -18,7 +18,7 @@
 	{% endfor %}
 {% endif %}
 
-	<link rel="shortcut icon" href="static/favicon.ico">
+	<link rel="shortcut icon" href="/static/favicon.ico">
 </head>
 <body>
 	<div class="navbar navbar-fixed-top">
@@ -42,7 +42,11 @@
 							</a>
 							<ul class="dropdown-menu">
 			{% for notification in current_user.notifications %}
-								<li><a href="{{ notification.link }}">{{ notification.message }}</a></li>
+								<li>
+									<a href="{{ notification.link }}?notification={{ notification.id }}">
+										{{ notification.message }}
+									</a>
+								</li>
 			{% endfor %}
 							</ul>
 						</li>
